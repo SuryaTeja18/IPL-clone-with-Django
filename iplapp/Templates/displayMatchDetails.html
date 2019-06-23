@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Match Details</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css"/>
+</head>
+<body>
+<nav class="navbar has-background-primary">
+    <h4 style="margin-top:7px;"><a class="button" href="{% url 'display_2019_matches' %}">HOME</a></h4>
+    <h4 class="navbar-item">{% ifequal user.is_authenticated 1 %}Logged in as:<em class="has-background-warning">{{user}}</em>{% else %} <a class="button" href="{% url 'login' %}">Login</a>{% endifequal %}</h4>
+    <h4 class="navbar-end" style="margin-top:7px;">{% ifequal user.is_authenticated 1 %} <a class="button" href="{% url 'logout' %}">Logout</a>{% endifequal %}</h4>
+</nav>
+<div class="container">
+    <h2 class="title box">Match overview</h2>
+    <div class="box">
+    <b>{{match.0.0}}</b> vs <b>{{match.0.1}}</b>, at {{match.0.2}},<br>
+    <b>{{match.0.3}}</b> elected to {{match.0.4}}<br>
+    <b>{{match.0.5}}</b> won the MATCH!!<br>
+    Player of the match - <b>{{match.0.6}}</b>
+    </div>
+    <div class="box" style="float:left;">
+    <b>First Innings top 3 Batsmen</b>
+    {% for batsman in topbat1 %}
+           <p>{{batsman.striker}} Scored {{batsman.sum}}</p>
+    {% endfor %}
+    <b>Second Innings top 3 Batsmen</b>
+    {% for batsman in topbat2 %}
+           <p>{{batsman.striker}} Scored {{batsman.sum}}</p>
+    {% endfor %}
+    </div>
+    <div class="box" style="float:right;">
+    <b>First Innings top 3 Bowlers</b>
+    {% for bowler in topbowl1 %}
+           <p>{{bowler.bowler}} conceded {{bowler.count}}</p>
+    {% endfor %}
+    <b>Second Innings top 3 Bowlers</b>
+    {% for bowler in topbowl2 %}
+           <p>{{bowler.bowler}} conceded {{bowler.count}}</p>
+    {% endfor %}
+    </div>
+    <div class="box">
+    <h2 class="title has-background-grey-lighter box" align="center">Ball to Ball Stats</h2>
+    </div>
+</div>
+    <center><button class="button" id="in1butt" onclick="toggle1()">Innings 1</button><button class="button" id="in2butt" onclick="toggle2()">Innings 2</button></center>
+    <div id="in1" style="float:left;margin-top:100px;display:none;">
+        {% for ball in inning1 %}
+            <p>{{ball.1}}.{{ball.2}}, {{ball.4}} to {{ball.3}}, {{ball3}} scored {{ball.5}}, {{ball.6}} runs from this over so far,</p>
+        {% endfor %}
+    </div>
+    <div id="in2" style="float:right;margin-top:100px;display:none;">
+        {% for ball in inning2 %}
+            <p>{{ball.1}},{{ball.2}}</p>
+        {% endfor %}
+    </div>
+    <script>
+        function toggle1()
+        {
+            var x = document.getElementById('in1');
+            x.style.display = 'block';
+            document.getElementById('in1butt').style.background = "lightblue";
+            document.getElementById('in2butt').style.background = "white";
+            document.getElementById('in2').style.display='none';
+        }
+        function toggle2()
+        {
+            var x = document.getElementById('in2');
+            x.style.display = 'block';
+            document.getElementById('in2butt').style.background = "lightblue";
+            document.getElementById('in1butt').style.background = "white";
+            document.getElementById('in1').style.display='none';
+        }
+    </script>
+</body>
+</html>

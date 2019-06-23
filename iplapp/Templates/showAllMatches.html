@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Matches</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css"/>
+    <style>
+        a{
+            color:white;
+        }
+        th{
+            background-color:lightblue;
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar has-background-primary">
+    <h4 style="margin-top:7px;"><a class="button" href="{% url 'display_2019_matches' %}">HOME</a></h4>
+    <h4 class="navbar-item">{% ifequal user.is_authenticated 1 %}Logged in as:<em class="has-background-warning">{{user}}</em>{% else %} <a class="button" href="{% url 'login' %}">Login</a>{% endifequal %}</h4>
+    <h4 class="navbar-end" style="margin-top:7px;">{% ifequal user.is_authenticated 1 %} <a class="button" href="{% url 'logout' %}">Logout</a>{% endifequal %}</h4>
+    </nav>
+    <nav class="navbar has-background-black">
+       {# <img class="navbar-item" src="https://www.javatpoint.com/fullformpages/images/ipl2.jpg" style="width:90px;height:60px;"/>#}
+        <a class="navbar-item" href="{% url 'display_season_matches' 2019 %}">Season 2019</a>
+        <a class="navbar-item" href="{% url 'display_season_matches' 2018 %}">Season 2018</a>
+        <a class="navbar-item" href="{% url 'display_season_matches' 2017 %}">Season 2017</a>
+        <a class="navbar-item" href="{% url 'display_season_matches' 2016 %}">Season 2016</a>
+        <a class="navbar-item" href="{% url 'display_season_matches' 2015 %}">Season 2015</a>
+        <a class="navbar-item" href="{% url 'display_season_matches' 2014 %}">Season 2014</a>
+        <a class="navbar-item" href="{% url 'display_season_matches' 2013 %}">Season 2013</a>
+        <a class="navbar-item" href="{% url 'display_season_matches' 2012 %}">Season 2012</a>
+        <a class="navbar-item" href="{% url 'display_season_matches' 2011 %}">Season 2011</a>
+        <a class="navbar-item" href="{% url 'display_season_matches' 2010 %}">Season 2010</a>
+        <a class="navbar-item" href="{% url 'display_season_matches' 2009 %}">Season 2009</a>
+        <a class="navbar-item" href="{% url 'display_season_matches' 2008 %}">Season 2008</a>
+        <div class="navbar-item dropdown is-hoverable">
+  <div class="dropdown-trigger">
+    <button class="button has-background-primary" aria-haspopup="true" aria-controls="dropdown-menu">
+      <span >Team Home Pages ></span>
+      <span class="icon is-small">
+        <i class="fas fa-angle-down" aria-hidden="true"></i>
+      </span>
+    </button>
+  </div>
+  <div class="dropdown-menu" id="dropdown-menu" role="menu">
+    <div class="dropdown-content">
+      <a href="{% url 'displayTeamHome' 1 %}" class="dropdown-item">
+        Royal Challengers Banglore
+      </a>
+      <a href="{% url 'displayTeamHome' 2 %}" class="dropdown-item">
+        Mumbai Indians
+      </a>
+      <a href="{% url 'displayTeamHome' 3 %}" class="dropdown-item">
+        Sunrisers Hyderabad
+      </a>
+      <a href="{% url 'displayTeamHome' 4 %}" class="dropdown-item">
+        Rajasthan Royals
+      </a>
+      <a href="{% url 'displayTeamHome' 5 %}" class="dropdown-item">
+        Delhi Capitals
+      </a>
+      <a href="{% url 'displayTeamHome' 6 %}" class="dropdown-item">
+          Kings XI Punjab
+      </a>
+      <a href="{% url 'displayTeamHome' 7 %}" class="dropdown-item">
+        Chennai Super Kings
+      </a>
+      <a href="{% url 'displayTeamHome' 8 %}" class="dropdown-item">
+          Gujarat Lions
+      </a>
+      <a href="{% url 'displayTeamHome' 9 %}" class="dropdown-item">
+        Rising pune Supergaint
+      </a>
+      <a href="{% url 'displayTeamHome' 10 %}" class="dropdown-item">
+        Pune warriors
+      </a>
+      <a href="{% url 'displayTeamHome' 11 %}" class="dropdown-item">
+        Kolkata Knight Riders
+      </a>
+      <a href="{% url 'displayTeamHome' 12 %}" class="dropdown-item">
+        Kochi Tuskers Kerala
+      </a>
+      <a href="{% url 'displayTeamHome' 13 %}" class="dropdown-item">
+        Deccan Chargers
+      </a>
+      <a href="{% url 'displayTeamHome' 14 %}" class="dropdown-item">
+        Delhi Daredevils
+      </a>
+        </div>
+        </div>
+    </div>
+    </nav>
+    <center><h1><b>Points Table</b></h1></center>
+    <center>
+    <table class="table is-bordered">
+        <tr>
+            <th>Rank</th>
+            <th>Team</th>
+            <th>Played</th>
+            <th>Won</th>
+            <th>Lost</th>
+        </tr>
+        {% for row in pt %}
+            <tr>
+                {% for i in row %}
+                    <td>{{i}}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </table>
+    </center>
+    <hr>
+    <center><h1 class="title">Season {{s}} Matches</h1></center>
+    <hr>
+    {% for item in matches %}
+    <div class="container">
+        <div class="box" align="center">
+            <ul>
+                <li><b>{{item.0}}</b> vs <b>{{item.1}}</b></li>
+                <li>Venue: {{item.2}}</li>
+                <li>Toss: <b>{{item.3}}</b> elected to {{item.4}} first</li>
+                <li>Winner: <b>{{item.5}}</b></li>
+                <li>Man of the Match: {{item.6}}</li>
+                <li><a class="button is-rounded is-primary" href="{% url 'display_match_details' item.7 %}">View Match Details</a></li>
+            </ul>
+        </div>
+    </div>
+    <hr>
+    {% endfor %}
+    <div class="pagination" >
+    <span class="step-links">
+        {% if matches.has_previous %}
+            <a class = "button has-background-grey" href="?page=1">&laquo; first</a>
+            <a class = "button has-background-primary" href="?page={{ matches.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ matches.number }} of {{ matches.paginator.num_pages }}.
+        </span>
+        {% if matches.has_next %}
+            <a class="button has-background-primary" href="?page={{ matches.next_page_number }}">next</a>
+            <a class="button has-background-grey" href="?page={{ matches.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+    </div>
+</body>
+</html>

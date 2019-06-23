@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{team}} Home Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css"/>
+</head>
+<body>
+<nav class="navbar has-background-primary">
+    <h4 style="margin-top:7px;"><a class="button" href="{% url 'display_2019_matches' %}">HOME</a></h4>
+    <h4 class="navbar-item">{% ifequal user.is_authenticated 1 %}Logged in as:<em class="has-background-warning">{{user}}</em>{% else %} <a class="button" href="{% url 'login' %}">Login</a>{% endifequal %}</h4>
+    <h4 class="navbar-end" style="margin-top:7px;">{% ifequal user.is_authenticated 1 %} <a class="button" href="{% url 'logout' %}">Logout</a>{% endifequal %}</h4>
+</nav>
+<h2 class="title has-background-grey-lighter" style="height:50px"><center>{{team}} Home Page</center></h2>
+<center style="background-color:red;">{% ifequal team 'Royal Challengers Bangalore' %}<img src="https://www.india.com/wp-content/uploads/2017/02/RCB-IPL-2017-matches.jpg"/>{% endifequal %}</center>
+<center style="background-color:yellow;">{% ifequal team 'Chennai Super Kings' %}<img src="https://www.india.com/wp-content/uploads/2018/01/csk-logo.jpg"/>{% endifequal %}</center>
+<center style="background-color:orange;">{% ifequal team 'Sunrisers Hyderabad' %}<img src="https://www.india.com/wp-content/uploads/2018/01/sun-1.jpg"/>{% endifequal %}</center>
+<center >{% ifequal team 'Rajasthan Royals' %}<img src="https://sportnewsbd.com/wp-content/uploads/2018/05/rr-e1521923729535.jpg" height="900" width="900"/>{% endifequal %}</center>
+<center style="background-color:lightblue;">{% ifequal team 'Delhi Capitals' %}<img src="https://www.sportswallah.com/wp-content/uploads/2019/03/NewDelhi.jpg" height="900" width="900"/>{% endifequal %}</center>
+<center style="background-color:pink;">{% ifequal team 'Kings XI Punjab' %}<img src="https://www.thenews.com.pk//assets/uploads/updates/2018-12-20/408505_263391_kings-xi-punjab_updates.jpg" height="900" width="900"/>{% endifequal %}</center>
+<center style="background-color:blue;">{% ifequal team 'Mumbai Indians' %}<img src="https://www.sportshalchal.com/wp-content/uploads/2019/03/Rohit-Sharma-Yuvraj-Singh-Mumbai-Indians-IPL-2019.jpg" height="900" width="900"/>{% endifequal %}</center>
+<center style="background-color:violet;">{% ifequal team 'Kolkata Knight Riders' %}<img src="https://statics.sportskeeda.com/editor/2018/02/e5c8c-1519583071-800.jpg"/>{% endifequal %}</center>
+
+            <div class="container">
+                {% for stat in stats %}
+                <div class="box" align="center">
+                    <em>
+                        {% ifequal stat.1 1 %}<b>Winner of IPL {{stat.0}}</b><br>{% endifequal %}
+                        {% ifequal stat.1 2 %}<b>Runner up of IPL {{stat.0}}</b><br>{% endifequal %}
+                        In {{stat.0}}, <b>{{team}}</b> finished {{stat.1}} in the table,<br>
+                        won {{stat.3}} matches and lost {{stat.4}} and,<br>
+                        {% if stat.1 > 4 %}Haven't Reached the playoffs :( {% else %} Made it to the Playoffs :) {% endif %}
+                    </em>
+                </div>
+                {% endfor %}
+            </div>
+</body>
+</html>
